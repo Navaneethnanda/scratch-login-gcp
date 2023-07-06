@@ -14,7 +14,6 @@ const RegistrationForm = () => {
     const temail=localStorage.getItem('email');
     if(temail===""){
      console.log("no user sessions found")
-     alert("logout to visit login or registration page")
     }
     else{
       alert("logout to visit login or registration page")
