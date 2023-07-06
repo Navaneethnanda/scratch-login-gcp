@@ -1,101 +1,120 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 
 const RegistrationForm = () => {
-  const [name, setName] = useState('nilesh');
-  const [password, setPassword] = useState('nilsh@gmail.com');
-  const [email, setEmail] = useState('nilsh@gmail.com');
-  const [location, setLocation] = useState('nilesh');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [number, setnumber] = useState('');
 
-const navigate=useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    const temail=localStorage.getItem('email');
+    if(temail===""){
+     console.log("no user sessions found")
+     alert("logout to visit login or registration page")
+    }
+    else{
+      alert("logout to visit login or registration page")
+      navigate("/profile")
+    }
+  },[]); // eslint-disable-line
+
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Send registration data to the backend using AJAX or any preferred method
-
-    // Example using fetch API
     axios
-    .post('http://localhost:5000/register', {
-      name: name,
-      password: password,
-      email: email,
-      location: location,
-    })
-    .then((response) => {
-      // Handle success response
-      console.log(response.data);
-      navigate("/login",{"state":{"message":response.data}});
-    })
-    .catch((error) => {
-      // Handle error response
-      console.error('Registration failed:', error);
-    });
-
-
+      .post('https://containerone-2rozri44gq-uc.a.run.app/add', {
+        name: name,
+        password: password,
+        email: email,
+        number: number,
+      })
+      .then((response) => {
+        console.log(response.data);
+        if(response.data==="regestration sucess"){
+          alert(response.data);
+          navigate("/login");
+        }
+        else{
+          alert(response.data);
+        }
+        
+      })
+      .catch((error) => {
+        console.error('Registration failed:', error);
+      });
   };
 
   return (
-    <div className="container">
-      <h1>User Registration</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">
+    <div className="container mx-auto py-10">
+      <h1 className="text-3xl font-bold mb-5 text-center">User Registration</h1>
+      <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-gray-700">
             Name
           </label>
           <input
             type="text"
-            className="form-control"
+            className="form-input mt-1 block w-full border border-gray-300 rounded-md px-4 py-3"
             id="name"
             value={name}
             onChange={(event) => setName(event.target.value)}
             required
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-gray-700">
             Password
           </label>
           <input
             type="password"
-            className="form-control"
+            className="form-input mt-1 block w-full border border-gray-300 rounded-md px-4 py-3"
             id="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700">
             Email
           </label>
           <input
             type="email"
-            className="form-control"
+            className="form-input mt-1 block w-full border border-gray-300 rounded-md px-4 py-3"
             id="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="location" className="form-label">
-            Location
+        <div className="mb-4">
+          <label htmlFor="number" className="block text-gray-700">
+            phone number
           </label>
           <input
             type="text"
-            className="form-control"
-            id="location"
-            value={location}
-            onChange={(event) => setLocation(event.target.value)}
+            className="form-input mt-1 block w-full border border-gray-300 rounded-md px-4 py-3"
+            id="number"
+            value={number}
+            onChange={(event) => setnumber(event.target.value)}
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary" >
-          Register
+       
+
+        <div className='flex items-center'>
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          register
         </button>
+
+        <Link to="/login" className='text-blue-500 underline ml-auto'>login</Link>
+        </div>
       </form>
     </div>
   );
