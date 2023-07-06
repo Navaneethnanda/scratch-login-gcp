@@ -15,7 +15,7 @@ const [statusList,setStatusList]=useState([]);
   useEffect(()=>{
     const tstatus=localStorage.getItem('status');
     const temail=localStorage.getItem('email');
-    if(temail===""){
+    if(!temail){
       navigate("/login")
     }
     setName(temail)

@@ -10,13 +10,13 @@ const LoginForm = () => {
 
   useEffect(()=>{
     const temail=localStorage.getItem('email');
-    if(temail===""){
-     console.log("no user sessions found")
+    if(temail){
+      alert("logout to visit login or registration page")
+      navigate("/profile")
     }
     else{
-
-     alert("logout to visit login or registration page")
-      navigate("/profile")
+      
+     console.log("no user sessions found",temail)
     }
   },[]);  // eslint-disable-line
 

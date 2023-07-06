@@ -12,12 +12,14 @@ const RegistrationForm = () => {
 
   useEffect(()=>{
     const temail=localStorage.getItem('email');
-    if(temail===""){
-     console.log("no user sessions found")
-    }
-    else{
+
+    if(temail){
       alert("logout to visit login or registration page")
       navigate("/profile")
+    }
+    else{
+      
+     console.log("no user sessions found",temail)
     }
   },[]); // eslint-disable-line
 
